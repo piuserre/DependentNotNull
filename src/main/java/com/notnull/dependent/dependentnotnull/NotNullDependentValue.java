@@ -10,7 +10,7 @@ import java.lang.annotation.Target;
 @Target({ FIELD })
 @Retention(RUNTIME)
 @Documented
-public @interface NotNullIfAnotherFieldHasValue {
+public @interface NotNullDependentValue {
 
     String message() default "";
 

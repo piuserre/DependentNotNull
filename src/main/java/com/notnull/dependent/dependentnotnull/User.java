@@ -19,7 +19,7 @@ public class User {
 	@NotNull
 	private boolean isPremium;
 
-	@NotNullIfAnotherFieldHasValue(fieldName = "isPremium", fieldValues = { "true" })
+	@NotNullDependentValue(fieldName = "isPremium", fieldValues = { "true" })
 	private BigDecimal amount;
 
 	public long getUserId() {

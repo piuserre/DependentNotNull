@@ -8,7 +8,7 @@ import javax.validation.ConstraintValidatorContext;
 
 import org.apache.commons.beanutils.BeanUtils;
 
-public class NotNullIfAnotherFieldHasValueValidator implements ConstraintValidator<EnableDependentNotNull, Object> {
+public class NotNullDependentValueValidator implements ConstraintValidator<EnableDependentNotNull, Object> {
 
 	@Override
 	public void initialize(final EnableDependentNotNull constraint) {
@@ -26,33 +26,31 @@ public class NotNullIfAnotherFieldHasValueValidator implements ConstraintValidat
 			final Field[] fields = clazz.getDeclaredFields();
 
 			for (Field field : fields) {
-				if (field.isAnnotationPresent(NotNullIfAnotherFieldHasValue.class)) {
+				if (field.isAnnotationPresent(NotNullDependentValue.class)) {
 
-					dependentFieldName = field.getAnnotation(NotNullIfAnotherFieldHasValue.class).fieldName();
-					dependentFieldValues = field.getAnnotation(NotNullIfAnotherFieldHasValue.class).fieldValues();
-					message = field.getAnnotation(NotNullIfAnotherFieldHasValue.class).message();
-
+					// retrieve annotation parameters
+					dependentFieldName = field.getAnnotation(NotNullDependentValue.class).fieldName();
+					dependentFieldValues = field.getAnnotation(NotNullDependentValue.class).fieldValues();
 					String actualDependentFieldValue = BeanUtils.getProperty(o, dependentFieldName);
-					String fieldValue = BeanUtils.getProperty(o, field.getName());
+					Object fieldValue = BeanUtils.getProperty(o, field.getName());
 
+					message = field.getAnnotation(NotNullDependentValue.class).message();
 					if (message.isEmpty())
 						message = " " + field.getName() + " IS REQUIRED ";
 
-					// se dependentField assume un valore di dependentFieldValues, allora field
-					// deve essere notnull
-					if ((Arrays.asList(dependentFieldValues).contains(actualDependentFieldValue)) && fieldValue == null)
-						result = false;
+					if ((Arrays.asList(dependentFieldValues).contains(actualDependentFieldValue))
+							&& fieldValue == null) {
+						if (result)
+							result=false;
 
-					if (!result) {
 						context.disableDefaultConstraintViolation();
 						context.buildConstraintViolationWithTemplate(message).addPropertyNode(field.getName())
 								.addConstraintViolation();
-						break;
 					}
 				}
 			}
 		} catch (final Exception e) {
-			// logger.info("error");
+			e.printStackTrace();
 		}
 		return result;
 	}

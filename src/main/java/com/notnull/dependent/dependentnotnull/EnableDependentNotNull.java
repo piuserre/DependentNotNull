@@ -11,7 +11,7 @@ import javax.validation.Payload;
 
 @Target(ElementType.TYPE)
 @Retention(RetentionPolicy.RUNTIME)
-@Constraint(validatedBy = NotNullIfAnotherFieldHasValueValidator.class)
+@Constraint(validatedBy = NotNullDependentValueValidator.class)
 @Documented
 public @interface EnableDependentNotNull {
 

@@ -1,6 +1,7 @@
 package com.notnull.dependent.dependentnotnull;
 
 import java.math.BigDecimal;
+import java.time.LocalDate;
 import java.util.Arrays;
 import java.util.List;
 
@@ -56,8 +57,9 @@ public class DependentNotnullApplication {
 		user3.setFirstName("George");
 		user3.setIsPremium(true);
 		user3.setAmount(BigDecimal.TEN);
+		user3.setSubscriptionDate(LocalDate.of(2028, 10, 10));
 
-		List<User> users = Arrays.asList(user1, user2, user3);
+		List<User> users = Arrays.asList(user3);
 		
 		for (User user : users) {
 			Errors errors = service.validation(user);
