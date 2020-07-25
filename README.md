@@ -1,7 +1,7 @@
 # DependentNotNull
 Demonstrate a simple @NotNull extension for pojo validation
 
-* @NotNullIfAnotherFieldHasValue on the interested field
+* @NotNullDependentValue on the interested field
 * @EnableDependentNotNull on the class
 
 Example:
@@ -10,7 +10,7 @@ Example:
 @NotNull	
 private boolean isPremium;
 
-@NotNullIfAnotherFieldHasValue(fieldName = "isPremium", fieldValues = { "true" })
+@NotNullDependentValue(fieldName = "isPremium", fieldValues = { "true" })
 private BigDecimal amount;
 ```
 
@@ -21,6 +21,6 @@ Another example:
 @NotNull	
 private String nationality;
 
-@NotNullIfAnotherFieldHasValue(fieldName = "nationality", fieldValues = { "Italian", "USA", "French" })
+@NotNullDependentValue(fieldName = "nationality", fieldValues = { "Italian", "USA", "French" })
 private String favouriteDish;
 ```
